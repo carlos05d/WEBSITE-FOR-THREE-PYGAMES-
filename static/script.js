@@ -1,29 +1,39 @@
 const themeToggleButton = document.getElementById("theme-toggle");
 const body = document.body;
 
-// Check local storage for theme preference
+// Vérification de la préférence du thème dans le localStorage
 const savedTheme = localStorage.getItem("theme");
+
 if (savedTheme === "dark") {
     body.classList.add("dark-mode");
-    themeToggleButton.textContent = "White Mode";
-} else if (savedTheme === "light") {
-    body.classList.remove("dark-mode");
-    themeToggleButton.textContent = "Night Mode";
+    themeToggleButton.textContent = "Enable RGB Mode"; // Affiche "Enable RGB Mode"
+} else if (savedTheme === "rgb") {
+    body.classList.add("rgb-mode");
+    themeToggleButton.textContent = "Disable RGB Mode"; // Affiche "Disable RGB Mode"
 } else {
-    // Default to light theme if no preference is saved
+    // Mode par défaut : light mode
     localStorage.setItem("theme", "light");
-    themeToggleButton.textContent = "Night Mode";
+    themeToggleButton.textContent = "Enable RGB Mode";
 }
 
-// Toggle between light and dark mode
+// Événement de bascule entre les modes
 themeToggleButton.addEventListener("click", () => {
-    body.classList.toggle("dark-mode");
-
     if (body.classList.contains("dark-mode")) {
-        themeToggleButton.textContent = "White Mode";
+        // Passe en mode RGB
+        body.classList.remove("dark-mode");
+        body.classList.add("rgb-mode");
+        themeToggleButton.textContent = "Disable RGB Mode";
+        localStorage.setItem("theme", "rgb");
+    } else if (body.classList.contains("rgb-mode")) {
+        // Retourne au mode sombre (Night Mode)
+        body.classList.remove("rgb-mode");
+        body.classList.add("dark-mode");
+        themeToggleButton.textContent = "Enable RGB Mode";
         localStorage.setItem("theme", "dark");
     } else {
-        themeToggleButton.textContent = "Night Mode";
-        localStorage.setItem("theme", "light");
+        // Retour au mode par défaut (light mode)
+        body.classList.add("dark-mode");
+        themeToggleButton.textContent = "Enable RGB Mode";
+        localStorage.setItem("theme", "dark");
     }
 });

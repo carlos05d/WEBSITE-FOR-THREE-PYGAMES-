@@ -1,125 +1,392 @@
-/* General Styles */
+/* Styles généraux */
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
-    background-color: #f4f4f4;
-    color: #333;
 }
 
-/* Header */
+/* Style pour le header */
 .main-header {
-    background-color: #6200ea;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 2rem;
+    color: white; /* Garder le texte du titre en blanc */
+    position: relative;
+}
+
+/* Animation pour l'arrière-plan RGB */
+.main-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff);
+    background-size: 300% 300%;
+    animation: animateRGB 6s infinite;
+    z-index: -1; /* Mettre l'animation en arrière-plan */
+}
+
+/* Animation pour le fond RGB */
+@keyframes animateRGB {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Mode nuit */
+body.dark-mode {
+    background-color: #121212;
     color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
 }
 
-.main-header h1 {
-    margin: 0;
-    font-size: 1.8rem;
+body.dark-mode .game-item {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.theme-button {
-    background-color: #ffffff;
-    color: #6200ea;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+body.dark-mode .theme-button {
+    background-color: #ff6347;
 }
 
-.theme-button:hover {
-    background-color: #ddd;
-    transform: scale(1.05);
+/* Mode RGB dynamique */
+body.rgb-mode {
+    background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff);
+    animation: animateRGB 6s infinite;
+    color: white;
 }
 
-/* Main Content */
-main {
-    padding: 2rem;
+/* Style des sections */
+h2 {
+    text-align: center;
+    margin-top: 20px;
 }
 
-.games-list h2 {
-    font-size: 1.5rem;
-    color: #444;
-    border-bottom: 2px solid #6200ea;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-/* Flexbox container for games */
-.games-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem; /* Adjust the spacing between the games */
-    flex-wrap: wrap; /* Allows the items to wrap if the screen is too small */
+.games-list, .about, .contact {
+    margin: 20px auto;
+    max-width: 800px;
+    text-align: center;
 }
 
 .game-item {
+    display: inline-block;
+    width: 28%;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.6); /* Fond sombre pour contraste */
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.game-item:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+}
+
+.game-item img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.play-button {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.play-button:hover {
+    background: #357ab8;
+}
+/* Style des boutons de jeu */
+.play-button {
+    background: linear-gradient(45deg, #ff8c00, #ff6347);
+    color: white;
+    border: 2px solid #ff6347;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: inline-block;
+    margin-top: 10px;
+}
+
+/* Effet de survol pour les boutons */
+.play-button:hover {
+    background: linear-gradient(45deg, #ff6347, #ff8c00);
+    border: 2px solid #ff8c00;
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Effet au focus pour les boutons */
+.play-button:focus {
+    outline: none;
+    box-shadow: 0 0 10px 2px rgba(255, 99, 71, 0.8);
+}
+
+/* Effet lorsque le bouton est cliqué */
+.play-button:active {
+    transform: scale(0.98);
+    background: linear-gradient(45deg, #ff8c00, #ff6347);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Style des jeux */
+.game-item {
+    display: inline-block;
+    width: 30%;
+    margin: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
-    flex: 1 1 30%; /* Flexbox property to allow 3 items per row and responsive layout */
-    min-width: 250px;
+}
+
+/* Effet de survol des jeux */
+.game-item:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
 }
 
 .game-item img {
     width: 150px;
     height: 150px;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+/* Style général des sections */
+section {
+    margin: 50px 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-.game-item a {
-    font-size: 1.2rem;
-    color: #6200ea;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.game-item a:hover {
-    color: #3700b3;
-}
-
-.game-item:hover img {
-    transform: scale(1.1);
-}
-
-/* Footer */
-footer {
+/* Section "About" */
+.about {
+    background: linear-gradient(45deg, #ff8c00, #ff6347);
+    color: white;
+    font-family: 'Arial', sans-serif;
+    padding: 40px;
+    border-radius: 12px;
     text-align: center;
-    padding: 1rem;
-    background-color: #6200ea;
-    color: white;
-    position: absolute;
-    bottom: 0;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.about h2 {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.about p {
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+/* Section "Contact" */
+.contact {
+    background: #333;
+    border-radius: 12px;
+    color: #fff;
+    padding: 40px;
+    text-align: center;
+}
+
+.contact h2 {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.contact ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contact li {
+    margin: 10px 0;
+}
+
+.contact a {
+    color: #ff6347;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.contact a:hover {
+    color: #ff8c00;
+}
+
+/* Footer/Copywrite */
+footer {
+    background: #111;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.2em;
+    position: fixed;
     width: 100%;
-    transition: background-color 0.3s ease;
+    bottom: 0;
 }
 
-/* Dark Mode Styles */
-body.dark-mode {
-    background-color: #121212;
-    color: #eeeeee;
+footer p {
+    margin: 0;
 }
 
-body.dark-mode .main-header {
-    background-color: #1f1f1f;
+/* Style du bouton RGB Disabled */
+button[disabled] {
+    background: #666;
+    color: #ddd;
+    border: 2px solid #444;
+    cursor: not-allowed;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.6;
 }
 
-body.dark-mode .theme-button {
-    background-color: #333;
+button[disabled]:hover {
+    background: #666;
+    color: #ddd;
+    box-shadow: none;
+}
+/* Style du bouton "Enable RGB Mode" */
+.theme-button {
+    background: linear-gradient(45deg, #ff00ff, #00ffff, #ff0000);
+    background-size: 300% 300%;
     color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.5s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-body.dark-mode .game-item a {
-    color: #bb86fc;
+/* Animation de l'arc-en-ciel */
+.theme-button:hover {
+    background-position: 100% 100%;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-body.dark-mode footer {
-    background-color: #1f1f1f;
+/* Effet de survol */
+.theme-button:active {
+    transform: scale(0.98);
+}
+
+/* Changement de couleur au survol */
+.theme-button:hover {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.8);
+}
+/* Style de l'en-tête (Header) */
+.main-header {
+    background: #1a1a1a;
+    color: white;
+    padding: 20px 30px;
+    text-align: center;
+    position: relative;
+}
+
+/* Style du bouton "Enable RGB Mode" */
+.theme-button {
+    background: linear-gradient(45deg, #ff00ff, #00ffff, #ff0000);
+    background-size: 300% 300%;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.5s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+}
+
+/* Animation de l'arc-en-ciel */
+.theme-button:hover {
+    background-position: 100% 100%;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Effet de survol */
+.theme-button:active {
+    transform: scale(0.98);
+}
+
+/* Changement de couleur au survol */
+.theme-button:hover {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.8);
+}
+/* Style du bouton "Enable RGB Mode" */
+.theme-button {
+    background: linear-gradient(45deg, #ff00ff, #00ffff, #ff0000);
+    background-size: 300% 300%;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.5s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    z-index: 10;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    white-space: nowrap; /* Ensure the text doesn't get cut off */
+}
+
+/* Animation de l'arc-en-ciel */
+.theme-button:hover {
+    background-position: 100% 100%;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Effet de survol */
+.theme-button:active {
+    transform: scale(0.98);
+}
+
+/* Changement de couleur au survol */
+.theme-button:hover {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.8);
 }
