@@ -1,5 +1,5 @@
 # WEBSITE-FOR-THREE-PYGAMES-
-Here's a `README.md` file for your "Website for Three Pygames" project, which I assume is a collection of three Pygame-based games you're developing or showcasing. I'll structure it based on common practices for such projects:
+
 
 ---
 
@@ -101,11 +101,3 @@ We welcome contributions! If you'd like to contribute, please follow these steps
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ---
-
-### Notes:
-
-- Replace the placeholders like `[Game Name]` with actual game names and descriptions.
-- Add any extra features or specific details about your project if necessary.
-- Include any dependencies in the `requirements.txt` if you're using a Python web framework (Flask/Django).
-
-This should give you a good starting point for the `README.md` file. Let me know if you need any adjustments or additions!
