@@ -2,7 +2,7 @@
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s ease, color 0.3s ease;
     background-color: #f4f4f4;
     color: #333;
 }
@@ -16,6 +16,7 @@ body {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
 }
 
 .main-header h1 {
@@ -31,11 +32,12 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
 
 .theme-button:hover {
     background-color: #ddd;
+    transform: scale(1.05);
 }
 
 /* Main Content */
@@ -51,17 +53,40 @@ main {
     margin-bottom: 1rem;
 }
 
-.game-link {
-    display: block;
-    margin: 0.5rem 0;
+/* Flexbox container for games */
+.games-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem; /* Adjust the spacing between the games */
+    flex-wrap: wrap; /* Allows the items to wrap if the screen is too small */
+}
+
+.game-item {
+    text-align: center;
+    flex: 1 1 30%; /* Flexbox property to allow 3 items per row and responsive layout */
+    min-width: 250px;
+}
+
+.game-item img {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.game-item a {
     font-size: 1.2rem;
     color: #6200ea;
     text-decoration: none;
-    transition: color 0.3s;
+    transition: color 0.3s ease;
 }
 
-.game-link:hover {
+.game-item a:hover {
     color: #3700b3;
+}
+
+.game-item:hover img {
+    transform: scale(1.1);
 }
 
 /* Footer */
@@ -73,6 +98,7 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
+    transition: background-color 0.3s ease;
 }
 
 /* Dark Mode Styles */
@@ -90,7 +116,7 @@ body.dark-mode .theme-button {
     color: white;
 }
 
-body.dark-mode .game-link {
+body.dark-mode .game-item a {
     color: #bb86fc;
 }
 
