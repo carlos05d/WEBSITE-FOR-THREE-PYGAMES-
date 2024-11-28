@@ -91,6 +91,28 @@ def clear_rows(grid):
         grid.insert(0, [0 for _ in range(SCREEN_WIDTH // BLOCK_SIZE)])
     return len(full_rows)
 
+# قائمة البدء
+def draw_menu():
+    screen.fill((0, 0, 0))
+    font = pygame.font.Font(None, 36)
+    title_text = font.render("Tetris Game", True, WHITE)
+    instructions_text = font.render("Press SPACE to Start", True, WHITE)
+    screen.blit(title_text, (SCREEN_WIDTH // 4, SCREEN_HEIGHT // 3))
+    screen.blit(instructions_text, (SCREEN_WIDTH // 4 - 20, SCREEN_HEIGHT // 2))
+    pygame.display.update()
+
+# قائمة نهاية اللعبة
+def draw_game_over_menu():
+    screen.fill((0, 0, 0))
+    font = pygame.font.Font(None, 36)
+    game_over_text = font.render("Game Over!", True, WHITE)
+    replay_text = font.render("Press R to Restart", True, WHITE)
+    quit_text = font.render("Press Q to Quit", True, WHITE)
+    screen.blit(game_over_text, (SCREEN_WIDTH // 4, SCREEN_HEIGHT // 3))
+    screen.blit(replay_text, (SCREEN_WIDTH // 4 - 20, SCREEN_HEIGHT // 2))
+    screen.blit(quit_text, (SCREEN_WIDTH // 4, SCREEN_HEIGHT // 2 + 40))
+    pygame.display.update()
+
 # اللعبة الرئيسية
 def main():
     clock = pygame.time.Clock()
@@ -100,6 +122,18 @@ def main():
     current_tetromino = Tetromino(random.choice(SHAPES), random.choice(COLOR_LIST))
     next_tetromino = Tetromino(random.choice(SHAPES), random.choice(COLOR_LIST))
     speed = 10  # سرعة اللعبة
+    game_started = False
+    
+    while not game_started:
+        draw_menu()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    game_started = True
+
     while not game_over:
         screen.fill((0, 0, 0))
 
@@ -126,9 +160,7 @@ def main():
                         current_tetromino.rotate()
                         current_tetromino.rotate()
                         current_tetromino.rotate()
-                if event.key == pygame.K_r and game_over:  # إذا تم الضغط على R لإعادة اللعبة
-                    main()
-
+        
         # تحريك القطعة لأسفل
         current_tetromino.y += BLOCK_SIZE
         if check_collision(grid, current_tetromino):
@@ -158,15 +190,22 @@ def main():
         score_text = font.render(f"Score: {score}", True, WHITE)
         screen.blit(score_text, (10, 10))
 
-        # عرض Game Over
-        if game_over:
-            game_over_text = font.render("Game Over! Press R to Restart", True, WHITE)
-            screen.blit(game_over_text, (SCREEN_WIDTH // 4, SCREEN_HEIGHT // 2))
-
         pygame.display.update()
         clock.tick(speed)  # تعديل السرعة
 
-    pygame.quit()
+    # قائمة نهاية اللعبة
+    while game_over:
+        draw_game_over_menu()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    main()  # إعادة تشغيل اللعبة
+                if event.key == pygame.K_q:
+                    pygame.quit()
+                    return
 
 if __name__ == "__main__":
     main()

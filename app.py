@@ -9,8 +9,7 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-# Route to run a specific game and 
-# display its output
+# Route to run a specific game and display its output
 @app.route('/run_game/<game_name>')
 def run_game(game_name):
     # Ensure case-insensitivity by normalizing the file name
@@ -30,7 +29,6 @@ def run_game(game_name):
             return f"<p>Error running the game: {str(e)}</p>", 500
     else:
         return f"<p>Game '{game_name}' not found.</p>", 404
-
 
 if __name__ == "__main__":
     app.run(debug=True)

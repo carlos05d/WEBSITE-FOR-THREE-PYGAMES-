@@ -6,6 +6,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
 SQUARE_SIZE = 80
 BOARD_SIZE = 8
 FPS = 30
@@ -20,6 +21,7 @@ class DamaGame:
         self.current_player = 'X'  # Player 'X' starts
         self.selected_piece = None
         self.valid_moves = []
+        self.game_over = False
 
     def create_board(self):
         # Create an empty board
@@ -54,7 +56,7 @@ class DamaGame:
     def draw_valid_moves(self):
         for move in self.valid_moves:
             row, col = move
-            pygame.draw.circle(self.screen, (0, 255, 0), (col * SQUARE_SIZE + SQUARE_SIZE // 2, row * SQUARE_SIZE + SQUARE_SIZE // 2), SQUARE_SIZE // 4)
+            pygame.draw.circle(self.screen, GREEN, (col * SQUARE_SIZE + SQUARE_SIZE // 2, row * SQUARE_SIZE + SQUARE_SIZE // 2), SQUARE_SIZE // 4)
 
     def is_valid_move(self, start_row, start_col, end_row, end_col, player):
         # Ensure the move is within the bounds
@@ -103,10 +105,16 @@ class DamaGame:
             middle_col = (start_col + end_col) // 2
             self.board[middle_row][middle_col] = None
 
+        # Check for promotion to king (optional rule, not implemented here)
+        # Example: self.promote_to_king(end_row, end_col)
+
     def switch_player(self):
         self.current_player = 'O' if self.current_player == 'X' else 'X'
 
     def handle_click(self, pos):
+        if self.game_over:
+            return
+
         col, row = pos[0] // SQUARE_SIZE, pos[1] // SQUARE_SIZE
         piece = self.board[row][col]
 
@@ -123,9 +131,35 @@ class DamaGame:
                 self.switch_player()
                 self.selected_piece = None
                 self.valid_moves = []
+                self.check_game_over()
             else:
                 self.selected_piece = None
                 self.valid_moves = []
+
+    def check_game_over(self):
+        # Check if the current player has no valid moves or pieces left
+        for row in range(BOARD_SIZE):
+            for col in range(BOARD_SIZE):
+                piece = self.board[row][col]
+                if piece == self.current_player:
+                    if self.get_valid_moves(row, col, self.current_player):
+                        return
+        self.game_over = True
+
+    def draw_game_over(self):
+        font = pygame.font.Font(None, 74)
+        text = font.render("Game Over", True, RED)
+        self.screen.blit(text, (SQUARE_SIZE * 2, SQUARE_SIZE * 3))
+        font = pygame.font.Font(None, 36)
+        text = font.render("Press R to Restart or Q to Quit", True, RED)
+        self.screen.blit(text, (SQUARE_SIZE * 1.5, SQUARE_SIZE * 4))
+
+    def reset_game(self):
+        self.board = self.create_board()
+        self.current_player = 'X'
+        self.selected_piece = None
+        self.valid_moves = []
+        self.game_over = False
 
     def play(self):
         while True:
@@ -136,6 +170,9 @@ class DamaGame:
             if self.selected_piece is not None:
                 self.draw_valid_moves()
 
+            if self.game_over:
+                self.draw_game_over()
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -145,10 +182,17 @@ class DamaGame:
                     mouse_pos = pygame.mouse.get_pos()
                     self.handle_click(mouse_pos)
 
+                if self.game_over and event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_r:
+                        self.reset_game()
+                    elif event.key == pygame.K_q:
+                        pygame.quit()
+                        sys.exit()
+
             pygame.display.flip()
             self.clock.tick(FPS)
-
 
 if __name__ == "__main__":
     game = DamaGame()
     game.play()
+

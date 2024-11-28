@@ -24,6 +24,10 @@ clock = pygame.time.Clock()
 # Fonts
 font = pygame.font.SysFont("arial", 24)
 
+# Load Background Image
+background_image = pygame.image.load('images/background.jpg')
+background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
+
 # Snake and Food
 snake = [(100, 100)]
 direction = (CELL_SIZE, 0)
@@ -33,7 +37,6 @@ score = 0
 game_over = False
 game_started = False
 
-
 def draw_text(text, color, x, y, center=False):
     text_surface = font.render(text, True, color)
     text_rect = text_surface.get_rect()
@@ -42,7 +45,6 @@ def draw_text(text, color, x, y, center=False):
     else:
         text_rect.topleft = (x, y)
     screen.blit(text_surface, text_rect)
-
 
 def move_snake():
     global snake, food, score
@@ -55,7 +57,6 @@ def move_snake():
     else:
         snake.pop()
 
-
 def reset_game():
     global snake, direction, food, score, game_over, game_started
     snake = [(100, 100)]
@@ -66,7 +67,6 @@ def reset_game():
     game_over = False
     game_started = False
 
-
 # Game Loop
 while True:
     for event in pygame.event.get():
@@ -76,7 +76,7 @@ while True:
 
     if not game_started:
         # Display Start Screen
-        screen.fill(BLACK)
+        screen.blit(background_image, (0, 0))
         draw_text("Snake Game", WHITE, WIDTH // 2, HEIGHT // 3, center=True)
         draw_text("Press SPACE to Start", GREEN, WIDTH // 2, HEIGHT // 2, center=True)
         draw_text("Use Arrow Keys to Move", WHITE, WIDTH // 2, HEIGHT // 2 + 50, center=True)
@@ -105,7 +105,7 @@ while True:
             game_over = True
 
         # Draw Screen
-        screen.fill(BLACK)
+        screen.blit(background_image, (0, 0))
         pygame.draw.rect(screen, RED, (*food, CELL_SIZE, CELL_SIZE))
         for segment in snake:
             pygame.draw.rect(screen, GREEN, (*segment, CELL_SIZE, CELL_SIZE))
@@ -115,7 +115,7 @@ while True:
 
     if game_over:
         # Display Game Over Screen
-        screen.fill(BLACK)
+        screen.blit(background_image, (0, 0))
         draw_text("Game Over!", RED, WIDTH // 2, HEIGHT // 3, center=True)
         draw_text(f"Your Score: {score}", WHITE, WIDTH // 2, HEIGHT // 2, center=True)
         draw_text("Press R to Restart or Q to Quit", WHITE, WIDTH // 2, HEIGHT // 2 + 50, center=True)
