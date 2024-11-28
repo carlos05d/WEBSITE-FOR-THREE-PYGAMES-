@@ -25,7 +25,7 @@ clock = pygame.time.Clock()
 font = pygame.font.SysFont("arial", 24)
 
 # Load Background Image
-background_image = pygame.image.load('images/background.jpg')
+background_image = pygame.image.load('static/images/background.jpg')
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 # Snake and Food
